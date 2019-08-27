@@ -26,4 +26,8 @@ public abstract class Game {
 		gameState = newState;
 	}
 
+	public void setSimulator(Simulator simulator) {
+		this.simulator = simulator;
+	}
+
 }

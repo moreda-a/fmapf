@@ -1,0 +1,86 @@
+0
+00000
+false
+111111
+FMAPF
+t1.txt
+false
+true
+
+
+
+false
+false
+false
+true true true true true true 
+HMAPF
+t1.txt
+false
+false
+
+
+false
+false
+false
+false false true false false true 
+SAPF
+S20x20.txt
+false
+true
+
+
+false
+false
+true
+false false true true true true 
+COGP
+C15P16.txt
+false
+true
+
+
+false
+false
+false
+true
+true true true true true true 
+PRIMA
+testcase-14.txt
+false
+
+false
+false
+true
+true
+false true false false false false 
+PRIMA
+testcase-8.txt
+
+false
+false
+false
+true
+true true true true true true 
+PRIMA
+testcase-7.txt
+
+false
+false
+false
+SPF
+systemInput
+garbageCollectorMode
+debugMode
+gameName
+
+systemInput = sc.nextBoolean();
+garbageCollectorMode = sc.nextBoolean();
+debugMode = sc.nextBoolean();
+checkModels[1] = sc.nextBoolean();
+checkModels[2] = sc.nextBoolean();
+checkModels[3] = sc.nextBoolean();
+checkModels[4] = sc.nextBoolean();
+checkModels[5] = sc.nextBoolean();
+checkModels[6] = sc.nextBoolean();
+gameName = sc.next();
+testCase = sc.next();
