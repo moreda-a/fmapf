@@ -23,6 +23,7 @@ public class FMAPF_Board extends Board {
 
 	public void updateBoard(FMAPF_Action act) {
 		table[act.x][act.y] = (table[act.x][act.y] < 0 ? -act.color : act.color);
+		table[act.x][act.y] = (act.finish ? -act.color : act.color);
 	}
 
 	@Override

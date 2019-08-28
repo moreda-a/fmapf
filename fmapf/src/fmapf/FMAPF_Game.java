@@ -53,7 +53,7 @@ public class FMAPF_Game extends Game {
 
 			firstBoard = new FMAPF_Board(this);
 			firstState = new FMAPF_State(this, firstBoard);
-			Game.endTime = 8;
+			Game.endTime = 10;
 			// Game.endTime = (width + height) + 2;
 			// TODO
 
@@ -100,7 +100,11 @@ public class FMAPF_Game extends Game {
 	}
 
 	private void setFirstState() {
-		gameState = firstState;
+		if (Main.debugMode[2] == '1')
+			System.out.println(firstState);
+		for (int i = 1; i <= playerNumber; ++i)
+			firstBoard.table[firstState.target[i].x][firstState.target[i].y] = 0;
+		gameState = new FMAPF_State(firstState);
 	}
 
 	@Override

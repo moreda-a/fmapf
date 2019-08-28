@@ -98,6 +98,8 @@ public class FMAPF_State extends State {
 		if (board.table[act.x][act.y] == -act.color || board.table[act.x][act.y] == 0) {
 			board.table[lastMove[act.color].x][lastMove[act.color].y] = 0;
 		}
+		if (act.x == target[act.color].x && act.y == target[act.color].y)
+			act.finish = true;
 		board.updateBoard(act);
 		lastMove[act.color] = pos[act.x][act.y];
 		parent = st;
@@ -163,6 +165,7 @@ public class FMAPF_State extends State {
 		allMoveDone = st.allMoveDone;
 	}
 
+	// WRONG!!!
 	public FMAPF_State(State[] agentState, State[] gg, int myNumber) {
 		FMAPF_State st = (FMAPF_State) agentState[1];
 		this.myNumber = myNumber;
@@ -274,9 +277,8 @@ public class FMAPF_State extends State {
 //	}
 
 	private boolean isNear(int color) {
-		// return Math.abs(lastMove[color].x - target[color].x) +
-		// Math.abs(lastMove[color].y - target[color].y) == 1;
-		return board.table[lastMove[color].x][lastMove[color].y] < 0;
+		return lastMove[color].x == target[color].x && lastMove[color].y == target[color].y;
+		// return board.table[lastMove[color].x][lastMove[color].y] < 0;
 	}
 
 	@Override
@@ -341,8 +343,10 @@ public class FMAPF_State extends State {
 					&& lastMove[nextColor].y + ddy[colorRegion][i] < game.height
 					&& (board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
 							+ ddy[colorRegion][i]] == 0
-							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
-									+ ddy[colorRegion][i]] == -nextColor))
+					// || board.table[lastMove[nextColor].x +
+					// ddx[colorRegion][i]][lastMove[nextColor].y
+					// + ddy[colorRegion][i]] == -nextColor
+					))
 				childss.add(game.simulator.simulate(this, new FMAPF_Action(lastMove[nextColor].x + ddx[colorRegion][i],
 						lastMove[nextColor].y + ddy[colorRegion][i], nextColor)));
 		return childss;
@@ -358,8 +362,9 @@ public class FMAPF_State extends State {
 					&& lastMove[nextColor].y + ddy[colorRegion][i] < game.height
 					&& (board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
 							+ ddy[colorRegion][i]] == 0
-							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
-									+ ddy[colorRegion][i]] == -nextColor))
+//							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
+//									+ ddy[colorRegion][i]] == -nextColor
+					))
 				return true;
 		return false;
 	}
@@ -375,8 +380,9 @@ public class FMAPF_State extends State {
 					&& lastMove[nextColor].y + ddy[colorRegion][i] < game.height
 					&& (board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
 							+ ddy[colorRegion][i]] == 0
-							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
-									+ ddy[colorRegion][i]] == -nextColor))
+//							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
+//									+ ddy[colorRegion][i]] == -nextColor
+					))
 				++ans;
 		return ans;
 	}
@@ -421,8 +427,9 @@ public class FMAPF_State extends State {
 					&& lastMove[nextColor].y + ddy[colorRegion][i] < game.height
 					&& (board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
 							+ ddy[colorRegion][i]] == 0
-							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
-									+ ddy[colorRegion][i]] == -nextColor)) {
+//							|| board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
+//									+ ddy[colorRegion][i]] == -nextColor
+					)) {
 				++ans;
 				if (ans == v + 1) {
 					nextAct = new FMAPF_Action(lastMove[nextColor].x + ddx[colorRegion][i],
@@ -444,8 +451,11 @@ public class FMAPF_State extends State {
 	}
 
 	private void updateDown(FMAPF_Action act) {
+
 		if (board.table[act.x][act.y] == -nextColor || board.table[act.x][act.y] == 0) {
 			board.table[lastMove[act.color].x][lastMove[act.color].y] = 0;
+			if (act.x == target[act.color].x && act.y == target[act.color].y)
+				act.finish = true;
 			board.updateBoard(act);
 			lastMove[act.color] = pos[act.x][act.y];
 		}
@@ -474,7 +484,7 @@ public class FMAPF_State extends State {
 
 	@Override
 	public int getDepth() {
-		return realDepth;
+		return realDepth + depth;
 	}
 
 	public void setRegion() {
