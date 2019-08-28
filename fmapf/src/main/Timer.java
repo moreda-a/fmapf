@@ -19,9 +19,9 @@ public class Timer {
 	}
 
 	public static void pause(int id) {
-		if (!resumeTimers.containsKey(id)) {
-			timers.compute(id, (k, v) -> k == null ? resumeTimers.get(id) - System.currentTimeMillis()
-					: v + resumeTimers.get(id) - System.currentTimeMillis());
+		if (resumeTimers.containsKey(id)) {
+			timers.compute(id, (k, v) -> v == null ? System.currentTimeMillis() - resumeTimers.get(id)
+					: v + System.currentTimeMillis() - resumeTimers.get(id));
 			resumeTimers.remove(id);
 		}
 	}

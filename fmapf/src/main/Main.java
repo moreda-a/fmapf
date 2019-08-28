@@ -15,6 +15,8 @@ public class Main {
 	public static char[] runMode;
 	public static String gameName;
 	private static String testCase;
+	private static String testCase2;
+	private static int num;
 	public static boolean isLocalSolver = false;
 	private static boolean isCenterlized;
 
@@ -27,7 +29,7 @@ public class Main {
 		getConfiguration();
 		switch (gameName) {
 		case "FMAPF": // try to make it possible :D
-			game = new FMAPF_Game(isCenterlized, testCase);
+			game = new FMAPF_Game(isCenterlized, testCase, testCase2, num);
 			simulator = new FMAPF_Simulator();
 			break;
 		default:
@@ -36,7 +38,7 @@ public class Main {
 		}
 		solver = new MonteCarloTreeSearch(game, simulator);
 		for (int i = 1; i <= MAX_RUN_MODE; ++i)
-			if (runMode[i] == '1') {
+			if (runMode[i - 1] == '1') {
 				updateRunMode(i);
 				run(game, simulator, solver);
 			}
@@ -58,6 +60,8 @@ public class Main {
 			runMode = sc.next().toCharArray();
 			gameName = sc.next();
 			testCase = sc.next();
+			testCase2 = sc.next();
+			num = sc.nextInt();
 			isLocalSolver = sc.nextBoolean();
 			isCenterlized = sc.nextBoolean();
 			sc.close();

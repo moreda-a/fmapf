@@ -1,9 +1,11 @@
 0
-00000
+001111
 false
-111111
+001001
 FMAPF
-t1.txt
+mapf-map/empty-8-8.map
+scen-random/empty-8-8-random-1.scen
+10
 false
 true
 

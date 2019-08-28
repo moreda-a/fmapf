@@ -122,7 +122,7 @@ public class MonteCarloTreeSearch extends Solver {
 	private Value fastRollout(State state) {
 		// oop??
 		FastMath.initRand(new Random().nextInt(), new Random().nextInt());
-		long stt = System.currentTimeMillis();
+		Timer.resume(8);
 		State st = new FMAPF_State((FMAPF_State) state);
 		((FMAPF_State) st).notChangable = false;
 		Timer.pause(8);
@@ -132,7 +132,7 @@ public class MonteCarloTreeSearch extends Solver {
 			Timer.resume(10);
 			st.rollDown();
 			Timer.pause(10);
-			stt = System.currentTimeMillis();
+			Timer.resume(9);
 		}
 		return st.getValue();
 	}
