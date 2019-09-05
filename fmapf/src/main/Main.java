@@ -7,7 +7,7 @@ import java.util.Scanner;
 import fmapf.*;
 
 public class Main {
-	private static final int MAX_RUN_MODE = 6;
+	private static final int MAX_RUN_MODE = 7;
 
 	public static int inputMode;
 	public static char[] debugMode;
@@ -37,7 +37,7 @@ public class Main {
 			break;
 		}
 		solver = new MonteCarloTreeSearch(game, simulator);
-		for (int i = 1; i <= MAX_RUN_MODE; ++i)
+		for (int i = 1; i <= runMode.length; ++i)
 			if (runMode[i - 1] == '1') {
 				updateRunMode(i);
 				run(game, simulator, solver);
@@ -79,7 +79,7 @@ public class Main {
 		while (game.notEnded()) {
 			State state = game.getState();
 			if (Main.debugMode[0] == '1')
-				System.out.println("gameState: \n" + state);
+				System.out.println("gameState: \n" + state.toStringX());
 			Timer.startTimer(1);
 			State nextState = solver.getBestNextState(state);
 			if (Main.debugMode[0] == '1')

@@ -6,7 +6,7 @@ public abstract class Value {
 	public int num;
 	public double value;
 	protected double bestValue;
-	protected boolean mark[];
+	protected int mark[];
 
 	public Value(int num, double value) {
 		this.num = num;

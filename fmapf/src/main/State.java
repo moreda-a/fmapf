@@ -55,4 +55,10 @@ public abstract class State {
 	}
 
 	protected abstract void rollDown();
+
+	protected abstract String toStringX();
+
+	protected abstract boolean isBreakable();
+
+	protected abstract State getGreedyChild();
 }

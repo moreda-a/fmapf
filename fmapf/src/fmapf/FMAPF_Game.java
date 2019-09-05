@@ -17,8 +17,8 @@ public class FMAPF_Game extends Game {
 
 	private String testCase;
 	private String testCase2;
-	private FMAPF_Board firstBoard;
-	private FMAPF_State firstState;
+	public FMAPF_Board firstBoard;
+	public FMAPF_State firstState;
 
 	public FMAPF_Game(boolean centralized, String testCase, String testCase2, int num) {
 		this.centralized = centralized;
@@ -53,7 +53,7 @@ public class FMAPF_Game extends Game {
 
 			firstBoard = new FMAPF_Board(this);
 			firstState = new FMAPF_State(this, firstBoard);
-			Game.endTime = 10;
+			Game.endTime = 30;
 			// Game.endTime = (width + height) + 2;
 			// TODO
 

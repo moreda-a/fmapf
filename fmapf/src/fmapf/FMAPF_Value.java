@@ -10,7 +10,7 @@ public class FMAPF_Value extends Value {
 		bestValue = value;
 	}
 
-	public FMAPF_Value(int i, double d, boolean[] m) {
+	public FMAPF_Value(int i, double d, int[] m) {
 		this.num = i;
 		this.value = d;
 		bestValue = value;
@@ -43,30 +43,45 @@ public class FMAPF_Value extends Value {
 		FMAPF_State st = (FMAPF_State) state;
 		FMAPF_Value simulation_result = (FMAPF_Value) simulationResult;
 		++num;
-		bestValue = Math.max(value,
-				simulation_result.value
-						- (st.lastColor != -1
-								? simulation_result.mark[st.lastColor]
-										? (double) (1.5 - (double) (((modelNumber - 1) % 3) + 1) / 2)
-												* (1 / st.game.playerNumber)
-										: 0
-								: 0));
+//		bestValue = Math.max(value,
+//				simulation_result.value
+//						- (st.lastColor != -1
+//								? simulation_result.mark[st.lastColor]
+//										? (double) (1.5 - (double) (((modelNumber - 1) % 3) + 1) / 2)
+//												* (1 / st.game.playerNumber)
+//										: 0
+//								: 0));
 		switch (modelNumber) {
 		case 1:
 		case 2:
 		case 3:
-			value = (value * (num - 1) + simulation_result.value
-					- (st.lastColor != -1
-							? simulation_result.mark[st.lastColor]
-									? (double) (1.5 - (double)(modelNumber / 2)) * (1 / st.game.playerNumber)
-									: 0
-							: 0))
-					/ num;
-			break;
+//			value = (value * (num - 1) + simulation_result.value
+//					- (st.lastColor != -1
+//							? simulation_result.mark[st.lastColor]
+//									? (double) (1.5 - (double) (modelNumber / 2)) * (1 / st.game.playerNumber)
+//									: 0
+//							: 0))
+//					/ num;
+//			break;
 		case 4:
 		case 5:
 		case 6:
 			value = bestValue;
+			break;
+		case 7:
+//			value = (value * (num - 1) + simulation_result.value
+//					+ (st.lastColor != -1
+//							? simulation_result.mark[st.lastColor]
+//									? (double) (2 / st.game.playerNumber)
+//									: 0
+//							: 0))
+//					/ num;
+			value = (value * (num - 1)
+					+ (st.lastColor != -1
+							? (simulation_result.mark[st.lastColor] != -1
+									? 1d - ((double) simulation_result.mark[st.lastColor] / Game.endTime)
+									: 0)
+							: 0))/num;
 			break;
 		default:
 			break;

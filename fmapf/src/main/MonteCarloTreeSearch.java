@@ -40,7 +40,7 @@ public class MonteCarloTreeSearch extends Solver {
 
 	public State getBestNextStateSingle(State root) {
 		root.reset(game);
-		int time = 1000;
+		int time = 40;
 		while (time-- > 0) {
 			if (Main.isGarbageCollectorOn)
 				System.gc();
@@ -66,7 +66,11 @@ public class MonteCarloTreeSearch extends Solver {
 	private State selection(State state) {// Done
 		State st = state;
 		Timer.resume(6);
-		while (st.isInTree && st.isNotTerminal()) {
+		while (st.isNotTerminal() && (st.isInTree || st.isBreakable())) {
+			if (!st.isInTree) {
+				st.isInTree = true;
+				st.value = game.CreateZeroValue();
+			}
 			Timer.pause(6);
 			Timer.resume(7);
 			st = best_uct(st);
@@ -97,6 +101,9 @@ public class MonteCarloTreeSearch extends Solver {
 		Timer.resume(8);
 		Value vx = state.value;
 		ArrayList<State> childs = state.getChilds();
+
+		if (state.isBreakable())
+			return state.getGreedyChild();
 
 		State ans = null;
 		Value vbest = null;

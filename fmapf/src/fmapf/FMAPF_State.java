@@ -15,11 +15,11 @@ public class FMAPF_State extends State {
 	// { 1,0,0,-1},{ 0,1,-1,0},{ 0,-1,1,0},{ -1,0,0,1},{ -1,0,0,1},{ 0,-1,1,0},{
 	// 0,1,-1,0},{ 1,0,0,-1}
 	// { 0,-1,1,0},{ -1,0,0,1},{ -1,0,0,1},{ 0,-1,1,0},{ 0,1,-1,0},{ 1,0,0,-1},{
-	// 1,0,0,-1},{ 0,1,-1,0}
-	static int[][] ddx = { { 1, 0, 0, -1 }, { 0, 1, -1, 0 }, { 0, -1, 1, 0 }, { -1, 0, 0, 1 }, { -1, 0, 0, 1 },
-			{ 0, -1, 1, 0 }, { 0, 1, -1, 0 }, { 1, 0, 0, -1 }, { 1, 0, -1, 0 } };
-	static int[][] ddy = { { 0, -1, 1, 0 }, { -1, 0, 0, 1 }, { -1, 0, 0, 1 }, { 0, -1, 1, 0 }, { 0, 1, -1, 0 },
-			{ 1, 0, 0, -1 }, { 1, 0, 0, -1 }, { 0, 1, -1, 0 }, { 0, 1, 0, -1 } };
+	// 1,0,0,-1,0},{ 0,1,-1,0,0}
+	static int[][] ddx = { { 1, 0, 0, -1, 0 }, { 0, 1, -1, 0, 0 }, { 0, -1, 1, 0, 0 }, { -1, 0, 0, 1, 0 },
+			{ -1, 0, 0, 1, 0 }, { 0, -1, 1, 0, 0 }, { 0, 1, -1, 0, 0 }, { 1, 0, 0, -1, 0 }, { 1, 0, -1, 0, 0 } };
+	static int[][] ddy = { { 0, -1, 1, 0, 0 }, { -1, 0, 0, 1, 0 }, { -1, 0, 0, 1, 0 }, { 0, -1, 1, 0, 0 },
+			{ 0, 1, -1, 0, 0 }, { 1, 0, 0, -1, 0 }, { 1, 0, 0, -1, 0 }, { 0, 1, -1, 0, 0 }, { 0, 1, 0, -1, 0 } };
 
 //	static int[] dx = { -1, 0, 0, 1 };
 //	static int[] dy = { 0, -1, 1, 0 };
@@ -35,6 +35,7 @@ public class FMAPF_State extends State {
 
 	public PII[] lastMove;
 	public PII[] target;
+	public int[] colorEndTime;
 	public boolean notChangable;
 	private Boolean isNotTerminal = null;
 	public int realDepth = 0;
@@ -73,9 +74,11 @@ public class FMAPF_State extends State {
 		this.game = game;
 		lastMove = new PII[game.playerNumber + 1];
 		target = new PII[game.playerNumber + 1];
+		colorEndTime = new int[game.playerNumber + 1];
 		for (int i = 1; i <= game.playerNumber; ++i) {
 			lastMove[i] = null;
 			target[i] = null;
+			colorEndTime[i] = -1;
 		}
 		pos = new PII[game.width][game.height];
 		for (int i = 0; i < game.width; ++i)
@@ -87,19 +90,26 @@ public class FMAPF_State extends State {
 	// nextState
 	public FMAPF_State(FMAPF_State st, FMAPF_Action act) {
 		game = st.game;
+		myNumber = st.myNumber;
 		board = new FMAPF_Board(game);
 		lastMove = new PII[game.playerNumber + 1];
 		target = new PII[game.playerNumber + 1];
+		colorEndTime = new int[game.playerNumber + 1];
 		for (int i = 1; i <= game.playerNumber; ++i) {
 			lastMove[i] = st.lastMove[i];
 			target[i] = st.target[i];
+			colorEndTime[i] = st.colorEndTime[i];
 		}
 		board.setBoard(st);
 		if (board.table[act.x][act.y] == -act.color || board.table[act.x][act.y] == 0) {
 			board.table[lastMove[act.color].x][lastMove[act.color].y] = 0;
+			board.xl = lastMove[act.color].x;
+			board.yl = lastMove[act.color].y;
 		}
-		if (act.x == target[act.color].x && act.y == target[act.color].y)
+		if (act.x == target[act.color].x && act.y == target[act.color].y) {
 			act.finish = true;
+			colorEndTime[act.color] = depth + realDepth;
+		}
 		board.updateBoard(act);
 		lastMove[act.color] = pos[act.x][act.y];
 		parent = st;
@@ -122,11 +132,14 @@ public class FMAPF_State extends State {
 		game = st.game;
 		board = new FMAPF_Board(game);
 		board.setBoard(st);
+		myNumber = st.myNumber;
 		lastMove = new PII[game.playerNumber + 1];
 		target = new PII[game.playerNumber + 1];
+		colorEndTime = new int[game.playerNumber + 1];
 		for (int i = 1; i <= game.playerNumber; ++i) {
 			lastMove[i] = st.lastMove[i];
 			target[i] = st.target[i];
+			colorEndTime[i] = st.colorEndTime[i];
 		}
 		parent = st;
 		colorRegion = st.colorRegion;
@@ -147,9 +160,11 @@ public class FMAPF_State extends State {
 		board.setBoard(st);
 		lastMove = new PII[game.playerNumber + 1];
 		target = new PII[game.playerNumber + 1];
+		colorEndTime = new int[game.playerNumber + 1];
 		for (int i = 1; i <= game.playerNumber; ++i) {
 			lastMove[i] = st.lastMove[i];
 			target[i] = st.target[i];
+			colorEndTime[i] = st.colorEndTime[i];
 		}
 		parent = st;
 		colorRegion = st.colorRegion;
@@ -174,9 +189,11 @@ public class FMAPF_State extends State {
 		board.setBoard(st);
 		lastMove = new PII[game.playerNumber + 1];
 		target = new PII[game.playerNumber + 1];
+		colorEndTime = new int[game.playerNumber + 1];
 		for (int i = 1; i <= game.playerNumber; ++i) {
 			lastMove[i] = st.lastMove[i];
 			target[i] = st.target[i];
+			colorEndTime[i] = st.colorEndTime[i];
 		}
 		allMoveDone = st.allMoveDone;
 		for (int i = 1; i <= game.playerNumber; ++i) {
@@ -319,12 +336,16 @@ public class FMAPF_State extends State {
 		}
 		// res += 1 - (double) (realDepth + depth) / Game.endTime;
 		res += (1 - (double) allMoveDone / (Game.endTime * game.playerNumber));
-		return new FMAPF_Value(-1, res / game.playerNumber, m);
+		return new FMAPF_Value(-1, res / game.playerNumber, colorEndTime);
 	}
 
 	@Override
 	public String toString() {
 		return "HMAPF_State [board=" + board + ", allMoveDone=" + allMoveDone + "]";
+	}
+
+	public String toStringX() {
+		return "HMAPF_State [board=" + board.toStringX() + ", allMoveDone=" + allMoveDone + "]";
 	}
 
 	@Override
@@ -336,13 +357,13 @@ public class FMAPF_State extends State {
 //		else
 		if (isNear(nextColor))
 			return childss;
-		for (int i = 0; i < 4; ++i)
+		for (int i = 0; i < 5; ++i)
 			if (lastMove[nextColor].x + ddx[colorRegion][i] >= 0
 					&& lastMove[nextColor].x + ddx[colorRegion][i] < game.width
 					&& lastMove[nextColor].y + ddy[colorRegion][i] >= 0
 					&& lastMove[nextColor].y + ddy[colorRegion][i] < game.height
 					&& (board.table[lastMove[nextColor].x + ddx[colorRegion][i]][lastMove[nextColor].y
-							+ ddy[colorRegion][i]] == 0
+							+ ddy[colorRegion][i]] == 0 || i == 4
 					// || board.table[lastMove[nextColor].x +
 					// ddx[colorRegion][i]][lastMove[nextColor].y
 					// + ddy[colorRegion][i]] == -nextColor
@@ -400,8 +421,8 @@ public class FMAPF_State extends State {
 
 	public int dist() {
 		int cn = childNumber();
-		// int[] ds = { 0, 1, 1, 1, 1, 5 };
-		int[] ds = { 0, 1, 2, 2, 2, 5 };
+		// int[] ds = { 0, 1, 1, 1, 1, 1,6 };
+		int[] ds = { 0, 1, 2, 2, 2, 2, 6 };
 		return FastMath.rand256() % ds[cn];
 	}
 
@@ -454,8 +475,12 @@ public class FMAPF_State extends State {
 
 		if (board.table[act.x][act.y] == -nextColor || board.table[act.x][act.y] == 0) {
 			board.table[lastMove[act.color].x][lastMove[act.color].y] = 0;
-			if (act.x == target[act.color].x && act.y == target[act.color].y)
+			board.xl = lastMove[act.color].x;
+			board.yl = lastMove[act.color].y;
+			if (act.x == target[act.color].x && act.y == target[act.color].y) {
 				act.finish = true;
+				colorEndTime[act.color] = depth + realDepth;
+			}
 			board.updateBoard(act);
 			lastMove[act.color] = pos[act.x][act.y];
 		}
@@ -472,6 +497,8 @@ public class FMAPF_State extends State {
 
 	@Override
 	protected void setLocalAgents(Game gamex) {
+		// here we set number
+		myNumber = nextColor;
 //		Game.localize = new ArrayList<Integer>();
 //		for (int i = 1; i <= game.playerNumber; ++i) {
 //			if (Math.abs(lastMove[i].first - lastMove[game.myNumber].first)
@@ -512,5 +539,16 @@ public class FMAPF_State extends State {
 				colorRegion = 7;
 		}
 
+	}
+
+	@Override
+	protected boolean isBreakable() { // is Shit
+		return (myNumber != nextColor)
+				&& Math.abs(lastMove[myNumber].x - target[nextColor].x) + Math.abs(lastMove[myNumber].y - target[nextColor].y) > 2;
+	}
+
+	@Override
+	protected State getGreedyChild() {
+		return getChilds().get(0);
 	}
 }

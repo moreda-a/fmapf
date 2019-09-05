@@ -1,11 +1,11 @@
 0
-100000
+001000
 false
-001001
+0000001
 FMAPF
-mapf-map/empty-8-8.map
-scen-random/empty-8-8-random-1.scen
-10
+mapf-map/empty-16-16.map
+scen-random/empty-16-16-random-4.scen
+35
 false
 true
 
