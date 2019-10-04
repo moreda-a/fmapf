@@ -1,32 +1,32 @@
-package fmapf;
+package prima;
 
 import main.*;
 
-public class FMAPF_Value extends Value {
+public class PRIMA_Value extends Value {
 
-	public FMAPF_Value(int num, double value) {
+	public PRIMA_Value(int num, double value) {
 		this.num = num;
 		this.value = value;
 		bestValue = value;
 	}
 
-	public FMAPF_Value(int i, double d, int[] m) {
+	public PRIMA_Value(int i, double d, int[] m) {
 		this.num = i;
 		this.value = d;
 		bestValue = value;
 		this.mark = m;
 	}
 
-	public static FMAPF_Value win() {
-		return new FMAPF_Value(-1, 1);
+	public static PRIMA_Value win() {
+		return new PRIMA_Value(-1, 1);
 	}
 
-	public static FMAPF_Value lose() {
-		return new FMAPF_Value(-1, -1);
+	public static PRIMA_Value lose() {
+		return new PRIMA_Value(-1, -1);
 	}
 
-	public static FMAPF_Value draw() {
-		return new FMAPF_Value(-1, 0);
+	public static PRIMA_Value draw() {
+		return new PRIMA_Value(-1, 0);
 	}
 
 //	public int compareTo_UCT(COGP_Value vv, int total_number) {
@@ -39,9 +39,9 @@ public class FMAPF_Value extends Value {
 //	}
 
 	@Override
-	public FMAPF_Value update(State state, Value simulationResult) {
-		FMAPF_State st = (FMAPF_State) state;
-		FMAPF_Value simulation_result = (FMAPF_Value) simulationResult;
+	public PRIMA_Value update(State state, Value simulationResult) {
+		PRIMA_State st = (PRIMA_State) state;
+		PRIMA_Value simulation_result = (PRIMA_Value) simulationResult;
 		++num;
 //		bestValue = Math.max(value,
 //				simulation_result.value

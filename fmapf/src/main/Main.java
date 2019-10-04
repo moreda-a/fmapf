@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import fmapf.*;
+import prima.*;
 
 public class Main {
 	private static final int MAX_RUN_MODE = 7;
@@ -31,6 +32,10 @@ public class Main {
 		case "FMAPF": // try to make it possible :D
 			game = new FMAPF_Game(isCenterlized, testCase, testCase2, num);
 			simulator = new FMAPF_Simulator();
+			break;
+		case "PRIMA": // try to make it possible :D
+			game = new PRIMA_Game(isCenterlized, testCase, testCase2, num);
+			simulator = new PRIMA_Simulator();
 			break;
 		default:
 			System.out.println("Unknown game!! : " + gameName);
