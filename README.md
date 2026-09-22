@@ -60,10 +60,12 @@ The other folders under `input/testcase/` hold test cases from the earlier versi
 
 3. Run `main.Main`.
 
-## Related papers
+## Paper
 
-- M. S. Kiarostami, M. Daneshvaramoli, S. Khalaj Monfared, D. Rahmati, S. Gorgin. *Multi-Agent Non-Overlapping Pathfinding with Monte-Carlo Tree Search.* IEEE Conference on Games (CoG), 2019.
-- M. Daneshvaramoli, M. S. Kiarostami, S. Khalaj Monfared, H. Karisani, H. Khashehchi, D. Rahmati, S. Gorgin, A. Rahmati. *Decentralized Cooperative Communication-less Multi-Agent Task Assignment with Monte-Carlo Tree Search.* [arXiv:1910.12062](https://arxiv.org/abs/1910.12062)
+M. Daneshvaramoli, M. S. Kiarostami, S. Khalaj Monfared, H. Karisani, K. Dehghannayeri, D. Rahmati, S. Gorgin.
+**Decentralized Communication-less Multi-Agent Task Assignment with Cooperative Monte-Carlo Tree Search.**
+2020 6th International Conference on Control, Automation and Robotics (ICCAR), IEEE, pp. 612-616.
+[Google Scholar](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=9kes09AAAAAJ&citation_for_view=9kes09AAAAAJ:ufrVoPGSRksC)
 
 ## Tech
 
